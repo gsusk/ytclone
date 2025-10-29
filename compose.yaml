@@ -1,0 +1,38 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    networks:
+      - backnet
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend:/usr/src/app
+
+  next-app:
+    container_name: next-app
+    build:
+      context: ./client
+      target: development
+      dockerfile: dev.Dockerfile
+    # Set environment variables directly in the compose file
+    environment:
+      ENV_VARIABLE: ${ENV_VARIABLE}
+      NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+    env_file:
+      - .env
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    #restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - frontnet
+
+networks:
+  backnet:
+  frontnet:

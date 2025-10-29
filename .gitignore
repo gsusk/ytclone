@@ -1,0 +1,45 @@
+*.env
+env
+.env
+.env.*
+
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Go build artifacts
+tmp/
+*.exe
+*.test
+*.out
+.air/
+
+# IDE
+.vscode/
+.idea/
+*.svg
+*.png
+# Git
+.git/
+.devcontainer
+
+## Update .gitignore
+
+**.gitignore:**
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Go
+tmp/
+.air/
+*.exe
+*.test
+*.out
+
+# IDE
+.vscode/
+.idea/
