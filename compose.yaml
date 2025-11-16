@@ -8,9 +8,10 @@ services:
     networks:
       - backnet
     ports:
-      - 8080:8080
+      - 8081:8081
     volumes:
       - ./backend:/usr/src/app
+      #- .:/usr/src/app <--- PARA MONTAR TODO Y USAR GIT
 
   next-app:
     container_name: next-app
@@ -27,12 +28,26 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules
+      #- .:/app
     #restart: always
     ports:
       - 3000:3000
     networks:
       - frontnet
 
+  nginx_rtmp:
+    container_name: nginx-rtmp
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 1935:1935
+      - 8080:8080
+      - 7000:7000
+    networks:
+      - nginx
+
 networks:
   backnet:
   frontnet:
+  nginx:
