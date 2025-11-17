@@ -46,6 +46,28 @@ services:
       - 7000:7000
     networks:
       - nginx
+    volumes:
+      - ./nginx/index.html:/usr/local/nginx/html/index.html
+      - ./nginx/recordings:/tmp/rec
+      - ./nginx/hls:/tmp/hls
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+    # For older Docker versions or Docker Desktop with GPU:
+    # (use *one* of the following)
+    # runtime: nvidia
+    # OR:
+    # gpus: all
+
+    gpus: all
+
+    environment:
+      # Optional: Improve NVENC performance
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,video,utility
 
 networks:
   backnet:

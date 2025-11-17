@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RTMP Live Stream - GPU Accelerated</title>
+    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #1a1a1a;
+        color: #fff;
+      }
+      .video-container {
+        margin: 20px 0;
+      }
+      .quality-selector {
+        margin: 10px 0;
+        display: flex;
+        gap: 10px;
+      }
+      .quality-btn {
+        padding: 10px 20px;
+        background: #2a2a2a;
+        border: 2px solid #4caf50;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      .quality-btn.active {
+        background: #4caf50;
+      }
+      .info {
+        background: #2a2a2a;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      code {
+        background: #3a3a3a;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .video-js {
+        width: 100%;
+        height: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎥 RTMP Live Streaming Server (GPU Accelerated)</h1>
+
+    <div class="info">
+      <h2>Stream to this server:</h2>
+      <p>
+        <strong>RTMP URL:</strong> <code>rtmp://your-server-ip:1935/live</code>
+      </p>
+      <p>
+        <strong>Stream Key:</strong> <code>mystream</code> (or any name you
+        choose)
+      </p>
+      <p><strong>GPU:</strong> NVIDIA NVENC Hardware Encoding</p>
+    </div>
+
+    <div class="video-container">
+      <h2>Live Stream Player</h2>
+      <div class="quality-selector">
+        <button class="quality-btn active" onclick="changeQuality('high')">
+          1080p (High)
+        </button>
+        <button class="quality-btn" onclick="changeQuality('mid')">
+          720p (Mid)
+        </button>
+        <button class="quality-btn" onclick="changeQuality('low')">
+          480p (Low)
+        </button>
+      </div>
+      <video
+        id="player"
+        class="video-js vjs-default-skin"
+        controls
+        preload="auto"
+      >
+        <source src="/hls/high.m3u8" type="application/x-mpegURL" />
+      </video>
+    </div>
+
+    <div class="info">
+      <h2>Features:</h2>
+      <ul>
+        <li>✅ NVIDIA GPU Hardware Encoding (NVENC)</li>
+        <li>
+          ✅ 3 Quality Levels (1080p @ 2.5Mbps, 720p @ 1Mbps, 480p @ 500Kbps)
+        </li>
+        <li>✅ FFmpeg handles all transcoding and HLS generation</li>
+        <li>✅ Automatic recording of original stream</li>
+        <li>✅ Low latency with P4 preset</li>
+      </ul>
+
+      <h3>Direct HLS URLs:</h3>
+      <p>High: <code>http://your-server-ip:8080/hls/high.m3u8</code></p>
+      <p>Mid: <code>http://your-server-ip:8080/hls/mid.m3u8</code></p>
+      <p>Low: <code>http://your-server-ip:8080/hls/low.m3u8</code></p>
+
+      <h3>Server Statistics:</h3>
+      <p><a href="/stat" style="color: #4caf50">View Live Stats</a></p>
+    </div>
+
+    <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+    <script>
+      var player = videojs("player", {
+        liveui: true,
+        controls: true,
+        autoplay: true,
+        preload: "auto",
+      });
+
+      function changeQuality(quality) {
+        var url = `/hls/${quality}.m3u8`;
+        player.src({
+          src: url,
+          type: "application/x-mpegURL",
+        });
+
+        // Update button states
+        document.querySelectorAll(".quality-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+      }
+
+      player.on("error", function () {
+        console.log(
+          "Stream not available. Make sure you are streaming to rtmp://server:1935/live/mystream"
+        );
+      });
+    </script>
+  </body>
+</html>
