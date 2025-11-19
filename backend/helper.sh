@@ -1,0 +1,1 @@
+goose -dir=db/schemas/ postgres $POSTGRES_URI $1
