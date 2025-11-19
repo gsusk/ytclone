@@ -1,1 +1,1 @@
-goose -dir=db/schemas/ postgres $POSTGRES_URI $1
+goose -dir=db/migrations/ postgres $POSTGRES_URI $1

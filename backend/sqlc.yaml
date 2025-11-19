@@ -6,3 +6,5 @@ sql:
     gen:
       go:
         out: "internal/store"
+        emit_interface: true
+        emit_pointers_for_null_types: true

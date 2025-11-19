@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 SELECT 'up SQL query';
--- +goose StatementEnd
+
 CREATE TABLE IF NOT EXISTS users
 (
     id           serial primary key,
@@ -15,8 +15,10 @@ CREATE TABLE IF NOT EXISTS users
     age          int check ( age > 0 ),
     avatar_url   text,
     created_at   TIMESTAMP DEFAULT NOW(),
-    updated_at   TIMESTAMP DEFAULT NOW()
+    updated_at   TIMESTAMP 
 );
+
+-- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin

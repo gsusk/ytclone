@@ -9,17 +9,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gofiber/fiber"
 	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
-	server := &http.Server{
-		Addr: ":8081",
-		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Hello"))
-		}),
-	}
+
 	a := fiber.New()
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)

@@ -1,0 +1,1 @@
+goose -dir=db/migrations create $1 sql
